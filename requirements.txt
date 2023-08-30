@@ -1,3 +1,5 @@
 fastapi
 uvicorn
 xhtml2pdf
+requests
+datetime
