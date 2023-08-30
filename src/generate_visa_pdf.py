@@ -1,33 +1,10 @@
 from datetime import datetime
 import os
-from xhtml2pdf import pisa
-import requests
+from src.util import convert_html_to_pdf, wrap_space
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
-
-def convert_url_to_pdf(url, output_path):
-    response = requests.get(url)
-
-    if response.status_code == 200:
-        html_content = response.text
-        with open(output_path, 'wb') as pdf_file:
-            pisa.CreatePDF(html_content, dest=pdf_file)
-            print(f'PDF created at: {output_path}')
-    else:
-        print(f"Failed to retrieve HTML content from URL: {url}")
-
-
-def convert_html_to_pdf(html_text, output_path):
-    with open(output_path, 'wb') as pdf_file:
-        pisa.CreatePDF(html_text, dest=pdf_file)
-        print(f'PDF created at - {output_path}')
-
-def wrap_space(value):
-    return f"&nbsp;     <span style=\"font-family: sans-serif;\">{value}</span>     &nbsp;"
-
-
-def get_html(name, passport):
+def get_visa_html(name, passport):
     return f"""
 <html>
   <head>
@@ -200,9 +177,9 @@ def get_html(name, passport):
 </html>
 """
 
-def get_file_name(code):
+def get_visa_file_name(code):
     return f"{code}-visa-application.pdf"
 
 
-def generate_pdf(name, passport, code):
-    convert_html_to_pdf(get_html(name, passport), os.path.normpath(os.path.join(current_directory, "../generated", get_file_name(code))))
+def generate_visa_pdf(name, passport, code):
+    convert_html_to_pdf(get_visa_html(name, passport), os.path.normpath(os.path.join(current_directory, "../generated", get_visa_file_name(code))))
