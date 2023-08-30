@@ -1,6 +1,6 @@
 from datetime import datetime
 import os
-from src.util import convert_html_to_pdf, wrap_space
+from src.util import convert_html_to_pdf, underline_and_space
 from src.images import signature, stamp
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -89,7 +89,7 @@ def get_visa_html(name, passport):
       <table class="full-width-table">
         <tr class="style-tr">
           <td style="width: 50%; text-align: left;">Controller of Immigration<br /> Singapore </td>
-          <td style="width: 50%; text-align: right;">Date: <span class="underline">{wrap_space(datetime.today().strftime('%Y-%m-%d'))}</span></td>
+          <td style="width: 50%; text-align: right;">Date: <span class="underline">{underline_and_space(datetime.today().strftime('%Y-%m-%d'))}</span></td>
         </tr>
       </table>
 
@@ -99,7 +99,7 @@ def get_visa_html(name, passport):
         LETTER OF INTRODUCTION FOR VISA APPLICATION
       </h4>
 
-      <p class="description"> The applicant for the visa, <span class="down-border">{wrap_space(str.upper(name))}</span> ( name of applicant ) of <span class="down-border">{wrap_space("BANGLADESH")}</span> ( country/place ), holder of passport/travel document no. <span class="down-border">{wrap_space(str.upper(passport))}</span> is coming to Singapore from <span class="down-border">{wrap_space("BANGLADESH")}</span> ( country/place of embarkation ) for the purpose of <span class="down-border">{wrap_space("HOLIDAY")}</span> ( e.g., holiday, transit, business, meeting, exhibition, visiting friends & relatives, employment, education for others, please specify ). The applicant is my <span class="down-border">{wrap_space("CLIENT")}</span>( e.g., father, mother, brother, sister, son, daughter, spouse, business partner; for others, please specify ). </p>
+      <p class="description"> The applicant for the visa, {underline_and_space(str.upper(name))} ( name of applicant ) of {underline_and_space("BANGLADESH")} ( country/place ), holder of passport/travel document no. {underline_and_space(str.upper(passport))} is coming to Singapore from {underline_and_space("BANGLADESH")} ( country/place of embarkation ) for the purpose of {underline_and_space("HOLIDAY")} ( e.g., holiday, transit, business, meeting, exhibition, visiting friends & relatives, employment, education for others, please specify ). The applicant is my {underline_and_space("CLIENT")} ( e.g., father, mother, brother, sister, son, daughter, spouse, business partner; for others, please specify ). </p>
 
       <h4 style="margin: 30px 0;">
         Yours faithfully

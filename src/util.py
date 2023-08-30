@@ -19,5 +19,5 @@ def convert_html_to_pdf(html_text, output_path):
         pisa.CreatePDF(html_text, dest=pdf_file)
         print(f'PDF created at - {output_path}')
 
-def wrap_space(value):
-    return f"&nbsp;     <span style=\"font-family: sans-serif;\">{value}</span>     &nbsp;"
+def underline_and_space(value):
+    return f"""<span style="text-decoration: underline; text-decoration-color: black;"><span class='underline-hide'>____</span>{value}<span class='underline-hide'>____</span></span>"""
