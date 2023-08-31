@@ -3,3 +3,4 @@ uvicorn
 xhtml2pdf
 requests
 datetime
+jsonschema
