@@ -1,26 +1,61 @@
-from src.generate_itenary_pdf import generate_itenary_pdf
-from src.generate_visa_pdf import generate_visa_pdf
-from datetime import datetime
+from io import BytesIO
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import  StreamingResponse
+from jsonschema import ValidationError, validate
+from src.generate_visa_pdf import get_visa_html
+from src.generate_itenary_pdf import get_itenary_html
+from xhtml2pdf import pisa
+from src.schema import itenary_schema
 
-if __name__ == "__main__":
-    generate_itenary_pdf(
-        {
-            "guests": [
-                {"name": "Al-imam", "passport_no": 43534},
-            ],
-            "itenary": [
-                {
-                    "date": datetime.today().strftime("%Y-%m-%d"),
-                    "from": "AirPost",
-                    "to": "Hotel valentilo",
-                },
-                {
-                    "date": datetime.today().strftime("%Y-%m-%d"),
-                    "from": "AirPost",
-                    "to": "Hotel valentilo",
-                },
-            ],
-        },
-    )
+app = FastAPI()
 
-    generate_visa_pdf("Al-imm", "345345345345")
+@app.post("/generate/visa/")
+async def generate_pdf(request: Request):
+    try:
+        data = await request.json()
+
+        if not (isinstance(data, dict) and data.get("name") and data.get("passport")):
+            raise HTTPException(
+                status_code=400,
+                detail={
+                    "message": "'name' and 'passport' are required!",
+                    "code": "invalid-req",
+                },
+            )
+
+        pdf_buffer = BytesIO()
+
+        try:
+            content = get_visa_html(data.get("name"), data.get("passport"))
+            pisa.CreatePDF(content, dest=pdf_buffer)
+            pdf_buffer.seek(0)
+
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail={
+                    "message": f"PDF generation error: {str(e)}",
+                    "code": "pdf-gen-error",
+                },
+            )
+
+        return StreamingResponse(pdf_buffer, media_type="application/pdf")
+
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "message": "Request body is not valid JSON!",
+                "code": "invalid-json",
+            },
+        )
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "message": "Internal Server Error",
+                "code": "server-break",
+            },
+        )
+
