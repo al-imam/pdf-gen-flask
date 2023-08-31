@@ -5,7 +5,7 @@ from src.images import signature, stamp
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
-def get_visa_html(name, passport):
+def get_visa_html(name: str, passport: str):
     return f"""
 <html>
   <head>

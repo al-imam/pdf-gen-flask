@@ -18,6 +18,7 @@ def generate_html_table(array):
     return "\n".join(map(tr, array))
 
 
+
 def get_itenary_html(dictionary):
     return f"""
 <html lang="en">
