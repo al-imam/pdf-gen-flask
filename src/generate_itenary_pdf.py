@@ -4,6 +4,7 @@ from src.images import banner
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
+
 def tr(value):
     return f"""
       <tr>
@@ -16,7 +17,6 @@ def tr(value):
 
 def generate_html_table(array):
     return "\n".join(map(tr, array))
-
 
 
 def get_itenary_html(dictionary):
@@ -68,7 +68,7 @@ def get_itenary_html(dictionary):
     }}
 
   </style>
-  <body>
+  <body style="font-family: 'Roboto', sans-serif;">
     <div class="table-container">
       <img class="logo-img" src="{banner}" alt="logo" />
 
@@ -99,12 +99,10 @@ def get_itenary_file_name(code):
     return f"{code}-itenary-application.pdf"
 
 
-def generate_itenary_pdf(value, code = "unknown"):
+def generate_itenary_pdf(value, code="unknown"):
     convert_html_to_pdf(
         get_itenary_html(value),
         os.path.normpath(
-            os.path.join(
-                current_directory, "../generated", get_itenary_file_name(code)
-            )
+            os.path.join(current_directory, "../generated", get_itenary_file_name(code))
         ),
     )
