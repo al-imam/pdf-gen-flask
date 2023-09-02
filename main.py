@@ -119,3 +119,11 @@ async def generate_pdf(request: Request):
                 "code": "server-break",
             },
         )
+
+
+@app.get("/{path:path}", status_code=404)
+@app.post("/{path:path}", status_code=404)
+@app.put("/{path:path}", status_code=404)
+@app.delete("/{path:path}", status_code=404)
+async def not_found_route(path: str):
+    return JSONResponse(status_code=404, content={"message": "Not Found", "path": path})
