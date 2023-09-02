@@ -1,9 +1,10 @@
+from datetime import datetime
 from io import BytesIO
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, StreamingResponse
 from jsonschema import ValidationError, validate
-from src.generate_visa_pdf import get_visa_html
-from src.generate_itenary_pdf import get_itenary_html
+from src.generate_visa_pdf import generate_visa_pdf, get_visa_html
+from src.generate_itenary_pdf import generate_itenary_pdf, get_itenary_html
 from xhtml2pdf import pisa
 from src.schema import itenary_schema
 
@@ -121,9 +122,28 @@ async def generate_pdf(request: Request):
         )
 
 
-@app.get("/{path:path}", status_code=404)
-@app.post("/{path:path}", status_code=404)
-@app.put("/{path:path}", status_code=404)
-@app.delete("/{path:path}", status_code=404)
-async def not_found_route(path: str):
-    return JSONResponse(status_code=404, content={"message": "Not Found", "path": path})
+@app.get("/generate/visa-itenary-test")
+async def generate_pdf():
+    generate_itenary_pdf(
+        {
+            "guests": [
+                {"name": "Al-imam", "passport_no": 43534},
+            ],
+            "itenary": [
+                {
+                    "date": datetime.today().strftime("%Y-%m-%d"),
+                    "from": "AirPost",
+                    "to": "Hotel valentilo",
+                },
+                {
+                    "date": datetime.today().strftime("%Y-%m-%d"),
+                    "from": "AirPost",
+                    "to": "Hotel valentilo",
+                },
+            ],
+        },
+    )
+
+    generate_visa_pdf("Al-Imam", "345D42343")
+
+    return {"success": True}
