@@ -151,7 +151,7 @@ def get_visa_html(name: str, passport: str):
 
       <h4 class="underline" style="font-weight: bolder;">Only for application where Local Contact is a company:</h4>
 
-      <table class="full-width-table" style="margin-bottom: 60px:">
+      <table class="full-width-table" style="margin-bottom: 50px:">
         <tr class="style-tr" >
            <td style="text-align: center;"><img style="width: 64px;" src={signature} alt="signature"></td>
           <td></td>
