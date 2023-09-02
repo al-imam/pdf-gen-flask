@@ -1,12 +1,21 @@
 from datetime import datetime
 import os
-from src.util import convert_html_to_pdf, underline_and_space
+from src.util import (
+    add_space_underlined,
+    convert_html_to_pdf,
+    get_space,
+)
 from src.images import signature, stamp
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
 
 def get_visa_html(name: str, passport: str):
+    passport_number_gap = "25px"
+
+    name_number_width = f"{150 - (len(name) * 4.8)}px"
+    passport_number_width = f"{150 - (len(passport) * 4.5)}px"
+
     return f"""
 <html>
   <head>
@@ -21,7 +30,11 @@ def get_visa_html(name: str, passport: str):
         box-sizing: border-box;
       }}
 
-      .element {{
+      @page {{
+        margin: 50px 70px;
+      }}
+
+      . {{
         background: #F0F8FF;
       }}
 
@@ -81,9 +94,13 @@ def get_visa_html(name: str, passport: str):
       }}
       
       .description {{ 
-        margin-bottom: 20px; 
+        margin-bottom: 15px; 
         line-height: 1.6; 
         text-align: justify;
+      }}
+
+      .full-width {{
+        text-algin: justify;
       }}
 
     </style>
@@ -94,7 +111,7 @@ def get_visa_html(name: str, passport: str):
       <table class="full-width-table">
         <tr class="style-tr">
           <td style="width: 50%; text-align: left;">Controller of Immigration<br /> Singapore </td>
-          <td style="width: 50%; text-align: right;">Date: <span class="underline">{underline_and_space(datetime.today().strftime('%Y-%m-%d'))}</span></td>
+          <td style="width: 50%; text-align: right;">Date: <span class="underline">&nbsp;{get_space("20px")}{datetime.today().strftime('%Y-%m-%d')}{get_space("20px")}</span></td>
         </tr>
       </table>
 
@@ -104,9 +121,14 @@ def get_visa_html(name: str, passport: str):
         LETTER OF INTRODUCTION FOR VISA APPLICATION
       </h4>
 
-      <p class="description"> The applicant for the visa, {underline_and_space(str.upper(name))} ( name of applicant ) of {underline_and_space("BANGLADESH")} ( country/place ), holder of passport/travel document no. {underline_and_space(str.upper(passport))} is coming to Singapore from {underline_and_space("BANGLADESH")} ( country/place of embarkation ) for the purpose of {underline_and_space("HOLIDAY")} ( e.g., holiday, transit, business, meeting, exhibition, visiting friends & relatives, employment, education for others, please specify ). The applicant is my {underline_and_space("CLIENT")} ( e.g., father, mother, brother, sister, son, daughter, spouse, business partner; for others, please specify ). </p>
+      <p class="description">The applicant for the visa, {add_space_underlined(str.upper(name), name_number_width)} ( name of applicant ) of 
+      <br> {add_space_underlined("BANGLADESH", "92px")} ( country/place ), holder of passport/travel document no.
+      <br> {add_space_underlined(str.upper(passport),  passport_number_width)} {get_space(passport_number_gap)} is {get_space(passport_number_gap)} coming {get_space(passport_number_gap)} to {get_space(passport_number_gap)} Singapore {get_space(passport_number_gap)} from 
+      <br> {add_space_underlined("BANGLADESH", "100px")} {get_space("5px")} ( country/place of embarkation ) {get_space("5px")} for the purpose of 
+      <br> {add_space_underlined("HOLIDAY", "120px")} ( e.g., holiday, transit, business, meeting, exhibition, visiting {get_space("9px")} friends {get_space("9px")} & {get_space("9px")} relatives, {get_space("9px")} employment, {get_space("9px")} education {get_space("9px")} for {get_space("9px")} others, {get_space("9px")} please {get_space("9px")} specify ). {get_space("9px")} The 
+      <br> applicant is my {add_space_underlined("CLIENT", "110px")} ( e.g., father, mother, brother, sister, son, daughter, spouse, business partner; for others, please specify ). </p>
 
-      <h4 style="margin: 20px 0;">
+      <h4 style="margin: 15px 0;">
         Yours faithfully
       </h4>
 
@@ -117,7 +139,7 @@ def get_visa_html(name: str, passport: str):
         <tr>
           <td class="style-td"><input /></td>
           <td class="style-td-gap"></td>
-          <td class="element style-td"></td>
+          <td class=" style-td"></td>
         </tr>
         <tr class="style-tr">
           <td class="up-border style-td">Signature of Local Contact</td>
@@ -125,9 +147,9 @@ def get_visa_html(name: str, passport: str):
           <td class="up-border style-td">NRIC (Pink / Blue) No</td>
         </tr>
         <tr>
-          <td class="style-td element"></td>
+          <td class="style-td "></td>
           <td class="style-td-gap"></td>
-          <td class="element style-td"></td>
+          <td class=" style-td"></td>
         </tr>
         <tr class="style-tr">
           <td class="up-border style-td">Name of Local Contact</td>
@@ -135,9 +157,9 @@ def get_visa_html(name: str, passport: str):
           <td class="up-border style-td">Contact Number</td>
         </tr>
         <tr>
-          <td class="style-td element"></td>
+          <td class="style-td "></td>
           <td class="style-td-gap"></td>
-          <td class="element style-td"></td>
+          <td class=" style-td"></td>
         </tr>
         <tr class="style-tr">
           <td class="up-border style-td-down">Address of Local Contact</td>
@@ -151,11 +173,11 @@ def get_visa_html(name: str, passport: str):
 
       <h4 class="underline" style="font-weight: bolder;">Only for application where Local Contact is a company:</h4>
 
-      <table class="full-width-table" style="margin-bottom: 50px:">
+      <table class="full-width-table" style="margin-bottom: 20px:">
         <tr class="style-tr" >
            <td style="text-align: center;"><img style="width: 64px;" src={signature} alt="signature"></td>
           <td></td>
-          <td ><img style="width: 64px; padding-left: 160px;  display: block;padding-bottom: -45px;" src="{stamp}" alt="img"><span>&nbsp;&nbsp;&nbsp;</span><p class="element-down" style="font-weight: bold; ">201727755Z</p></td>
+          <td ><img style="width: 64px; padding-left: 160px;  display: block;padding-bottom: -45px;" src="{stamp}" alt="img"><span>&nbsp;&nbsp;&nbsp;</span><p class="-down" style="font-weight: bold; ">201727755Z</p></td>
         </tr>
         <tr class="style-tr">
           <td class="up-border style-td-down">Signature of person acting on behalf of the Company/Firm</td>
@@ -163,9 +185,9 @@ def get_visa_html(name: str, passport: str):
           <td class="up-border style-td-down">Unique Entity Number (UEN) of the Company/Firm
         </tr>
         <tr class="style-tr">
-          <td class="element-down">SHAIKH MD SHAH JALAL, S7567880J, Director</td>
+          <td class="-down">SHAIKH MD SHAH JALAL, S7567880J, Director</td>
           <td ></td>
-          <td class="element-down">+65 98570429</td>
+          <td class="-down">+65 98570429</td>
         </tr>
         <tr class="style-tr gap-top">
           <td class="up-border style-td-down">Name, NRIC No. and Designation/Capacity</td>
@@ -173,9 +195,9 @@ def get_visa_html(name: str, passport: str):
           <td class="up-border style-td-down">Contact Number</td>
         </tr>
         <tr class="style-tr">
-          <td class="element-down">Flyasia Travel Pte Ltd. 92B sSyed Alwi Road (level 3),Singapore 207668</td>
+          <td class="-down">Flyasia Travel Pte Ltd. 92B sSyed Alwi Road (level 3),Singapore 207668</td>
           <td ></td>
-          <td class="element-down" style="padding-top: 10px;">sgflyasia@gmail.com</td>
+          <td class="-down" style="padding-top: 10px;">sgflyasia@gmail.com</td>
         </tr>
         <tr class="style-tr gap-top">
           <td class="up-border style-td-down">Company Name and Address</td>
