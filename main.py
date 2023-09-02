@@ -1,6 +1,6 @@
 from io import BytesIO
-from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import  StreamingResponse
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse, StreamingResponse
 from jsonschema import ValidationError, validate
 from src.generate_visa_pdf import get_visa_html
 from src.generate_itenary_pdf import get_itenary_html
@@ -9,15 +9,16 @@ from src.schema import itenary_schema
 
 app = FastAPI()
 
+
 @app.post("/generate/visa/")
 async def generate_pdf(request: Request):
     try:
         data = await request.json()
 
         if not (isinstance(data, dict) and data.get("name") and data.get("passport")):
-            raise HTTPException(
+            return JSONResponse(
                 status_code=400,
-                detail={
+                content={
                     "message": "'name' and 'passport' are required!",
                     "code": "invalid-req",
                 },
@@ -31,9 +32,9 @@ async def generate_pdf(request: Request):
             pdf_buffer.seek(0)
 
         except Exception as e:
-            raise HTTPException(
+            return JSONResponse(
                 status_code=500,
-                detail={
+                content={
                     "message": f"PDF generation error: {str(e)}",
                     "code": "pdf-gen-error",
                 },
@@ -42,23 +43,22 @@ async def generate_pdf(request: Request):
         return StreamingResponse(pdf_buffer, media_type="application/pdf")
 
     except ValueError:
-        raise HTTPException(
+        return JSONResponse(
             status_code=400,
-            detail={
+            content={
                 "message": "Request body is not valid JSON!",
                 "code": "invalid-json",
             },
         )
 
     except Exception as e:
-        raise HTTPException(
+        return JSONResponse(
             status_code=500,
-            detail={
+            content={
                 "message": "Internal Server Error",
                 "code": "server-break",
             },
         )
-
 
 
 @app.post("/generate/itenary/")
@@ -76,9 +76,9 @@ async def generate_pdf(request: Request):
             pdf_buffer.seek(0)
 
         except Exception as e:
-            raise HTTPException(
+            return JSONResponse(
                 status_code=500,
-                detail={
+                content={
                     "message": f"PDF generation error: {str(e)}",
                     "code": "pdf-gen-error",
                 },
@@ -86,10 +86,19 @@ async def generate_pdf(request: Request):
 
         return StreamingResponse(pdf_buffer, media_type="application/pdf")
 
-    except ValidationError as e:
-        raise HTTPException(
+    except ValueError:
+        return JSONResponse(
             status_code=400,
-            detail={
+            content={
+                "message": "Request body is not valid JSON!",
+                "code": "invalid-json",
+            },
+        )
+
+    except ValidationError as e:
+        return JSONResponse(
+            status_code=400,
+            content={
                 "message": "Request doesn't contain valid data!",
                 "expected-shape": {
                     "guests": [{"name": "string", "passport_no": "string"}],
@@ -102,19 +111,10 @@ async def generate_pdf(request: Request):
             },
         )
 
-    except ValueError:
-        raise HTTPException(
-            status_code=400,
-            detail={
-                "message": "Request body is not valid JSON!",
-                "code": "invalid-json",
-            },
-        )
-
     except Exception as e:
-        raise HTTPException(
+        return JSONResponse(
             status_code=500,
-            detail={
+            content={
                 "message": "Internal Server Error",
                 "code": "server-break",
             },
