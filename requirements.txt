@@ -1,5 +1,4 @@
-fastapi
-uvicorn
+flask
 xhtml2pdf
 requests
 datetime

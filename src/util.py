@@ -24,9 +24,5 @@ def get_space(px="auto"):
     return f"""<img style="width: {px};" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKcAAAAMCAYAAAAHza3BAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA9SURBVGhD7dIxAQAgDMCwgX/PwIGIHslTA13nGQjav5BjTrLMSZY5yTInWeYky5xkmZMsc5JlTrLMSdTMBYeoBBRjjFW1AAAAAElFTkSuQmCC" alt="" />"""
 
 
-def underline_and_space(value):
-    return f"""<span style="text-decoration: underline;" >&nbsp;{get_space("150px")}{value}{get_space("150px")}&nbsp;</span>"""
-
-
 def add_space_underlined(value, gap="auto"):
     return f"""<span style="text-decoration: underline;" >&nbsp;{get_space(gap)}{value}{get_space(gap)}&nbsp;</span>"""

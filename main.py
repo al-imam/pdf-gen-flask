@@ -1,28 +1,40 @@
 from datetime import datetime
 from io import BytesIO
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse, StreamingResponse
+from flask import Flask, request, Response, jsonify
 from jsonschema import ValidationError, validate
 from src.generate_visa_pdf import generate_visa_pdf, get_visa_html
 from src.generate_itenary_pdf import generate_itenary_pdf, get_itenary_html
 from xhtml2pdf import pisa
 from src.schema import itenary_schema
 
-app = FastAPI()
+app = Flask(__name__)
 
 
-@app.post("/generate/visa/")
-async def generate_pdf(request: Request):
+@app.route("/generate/visa/", methods=["POST"])
+def generate_pdf():
     try:
-        data = await request.json()
+        data = request.get_json(silent=True)
+
+        if data is None:
+            return (
+                jsonify(
+                    {
+                        "message": "Request body is not valid JSON!",
+                        "code": "invalid-json",
+                    }
+                ),
+                400,
+            )
 
         if not (isinstance(data, dict) and data.get("name") and data.get("passport")):
-            return JSONResponse(
-                status_code=400,
-                content={
-                    "message": "'name' and 'passport' are required!",
-                    "code": "invalid-req",
-                },
+            return (
+                jsonify(
+                    {
+                        "message": "'name' and 'passport' are required!",
+                        "code": "invalid-req",
+                    }
+                ),
+                400,
             )
 
         pdf_buffer = BytesIO()
@@ -33,39 +45,46 @@ async def generate_pdf(request: Request):
             pdf_buffer.seek(0)
 
         except Exception as e:
-            return JSONResponse(
-                status_code=500,
-                content={
-                    "message": f"PDF generation error: {str(e)}",
-                    "code": "pdf-gen-error",
-                },
+            return (
+                jsonify(
+                    {
+                        "message": f"PDF generation error: {str(e)}",
+                        "code": "pdf-gen-error",
+                    }
+                ),
+                500,
             )
 
-        return StreamingResponse(pdf_buffer, media_type="application/pdf")
-
-    except ValueError:
-        return JSONResponse(
-            status_code=400,
-            content={
-                "message": "Request body is not valid JSON!",
-                "code": "invalid-json",
-            },
-        )
+        return Response(pdf_buffer, content_type="application/pdf")
 
     except Exception as e:
-        return JSONResponse(
-            status_code=500,
-            content={
-                "message": "Internal Server Error",
-                "code": "server-break",
-            },
+        return (
+            jsonify(
+                {
+                    "message": "Internal Server Error",
+                    "code": "server-break",
+                    "error": str(e),
+                }
+            ),
+            500,
         )
 
 
-@app.post("/generate/itenary/")
-async def generate_pdf(request: Request):
+@app.route("/generate/itenary/", methods=["POST"])
+def generate_itenary_pdf_route():
     try:
-        data = await request.json()
+        data = request.get_json(silent=True)
+
+        if data is None:
+            return (
+                jsonify(
+                    {
+                        "message": "Request body is not valid JSON!",
+                        "code": "invalid-json",
+                    }
+                ),
+                400,
+            )
 
         validate(data, itenary_schema)
 
@@ -77,57 +96,55 @@ async def generate_pdf(request: Request):
             pdf_buffer.seek(0)
 
         except Exception as e:
-            return JSONResponse(
-                status_code=500,
-                content={
-                    "message": f"PDF generation error: {str(e)}",
-                    "code": "pdf-gen-error",
-                },
+            return (
+                jsonify(
+                    {
+                        "message": f"PDF generation error: {str(e)}",
+                        "code": "pdf-gen-error",
+                    }
+                ),
+                500,
             )
 
-        return StreamingResponse(pdf_buffer, media_type="application/pdf")
-
-    except ValueError:
-        return JSONResponse(
-            status_code=400,
-            content={
-                "message": "Request body is not valid JSON!",
-                "code": "invalid-json",
-            },
-        )
+        return Response(pdf_buffer, content_type="application/pdf")
 
     except ValidationError as e:
-        return JSONResponse(
-            status_code=400,
-            content={
-                "message": "Request doesn't contain valid data!",
-                "expected-shape": {
-                    "guests": [{"name": "string", "passport_no": "string"}],
-                    "itenary": [
-                        {"date": "2023-09-01", "from": "string", "to": "string"}
-                    ],
-                },
-                "provided": data,
-                "code": "invalid-request",
-            },
+        return (
+            jsonify(
+                {
+                    "message": "Request doesn't contain valid data!",
+                    "expected-shape": {
+                        "guests": [{"name": "string", "passport_no": "string"}],
+                        "itenary": [
+                            {"date": "2023-09-01", "from": "string", "to": "string"}
+                        ],
+                    },
+                    "provided": data,
+                    "code": "invalid-request",
+                }
+            ),
+            400,
         )
 
     except Exception as e:
-        return JSONResponse(
-            status_code=500,
-            content={
-                "message": "Internal Server Error",
-                "code": "server-break",
-            },
+        return (
+            jsonify(
+                {
+                    "message": "Internal Server Error",
+                    "code": "server-break",
+                    "error": str(e),
+                }
+            ),
+            500,
         )
 
 
-@app.get("/generate/visa-itenary-test")
-async def generate_pdf():
+@app.route("/generate/visa-itenary-test", methods=["GET"])
+def generate_pdf_test():
     generate_itenary_pdf(
         {
             "guests": [
-                {"name": "Al-imam", "passport_no": 43534},
+                {"name": "Al-imam", "passport_no": "43534"},
             ],
             "itenary": [
                 {
@@ -146,4 +163,8 @@ async def generate_pdf():
 
     generate_visa_pdf("Al-Imam", "345D42343")
 
-    return {"success": True}
+    return jsonify({"success": True})
+
+
+if __name__ == "__main__":
+    app.run()
