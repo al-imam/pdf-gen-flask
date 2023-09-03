@@ -76,7 +76,7 @@ def get_itenary_html(dictionary):
 
       <div class="name-container">
         <p style="font-size: 22px; text-decoration: underline">
-          {f"{dictionary['guests'][0]['name']} - {dictionary['guests'][0]['passport_no']} ({len(dictionary['guests'])})"}
+          {f"{dictionary['guest']['name']} - {dictionary['guest']['passport']} ({dictionary['guest']['family']})"}
         </p>
       </div>
 
