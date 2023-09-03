@@ -111,7 +111,7 @@ def get_visa_html(name: str, passport: str):
       <table class="full-width-table">
         <tr class="style-tr">
           <td style="width: 50%; text-align: left;">Controller of Immigration<br /> Singapore </td>
-          <td style="width: 50%; text-align: right;">Date: <span class="underline">&nbsp;{get_space("20px")}{datetime.today().strftime('%Y-%m-%d')}{get_space("20px")}</span></td>
+          <td style="width: 50%; text-align: right;">Date: <span class="underline">&nbsp;{get_space("20px")}{datetime.today().strftime('%d-%m-%Y')}{get_space("20px")}</span></td>
         </tr>
       </table>
 
