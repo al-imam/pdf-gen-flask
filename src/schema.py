@@ -1,16 +1,14 @@
 itenary_schema = {
     "type": "object",
     "properties": {
-        "guests": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "name": {"type": "string"},
-                    "passport_no": {"anyOf": [{"type": "integer"}, {"type": "string"}]},
-                },
-                "required": ["name", "passport_no"],
+        "guest": {
+            "type": "object",
+            "properties": {
+                "name": {"type": "string"},
+                "passport": {"anyOf": [{"type": "integer"}, {"type": "string"}]},
+                "family": {"type": "string"},
             },
+            "required": ["name", "passport", "family"],
         },
         "itenary": {
             "type": "array",
@@ -25,5 +23,12 @@ itenary_schema = {
             },
         },
     },
-    "required": ["guests", "itenary"],
+    "required": ["guest", "itenary"],
+}
+
+
+visa_schema = {
+    "type": "object",
+    "properties": {"name": {"type": "string"}, "passport": {"type": "string"}},
+    "required": ["name", "passport"],
 }
