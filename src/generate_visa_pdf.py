@@ -182,7 +182,7 @@ def get_visa_html(name: str, passport: str, purpose: str):
 
       <table class="full-width-table" style="margin-bottom: 20px:">
         <tr class="style-tr" >
-           <td style="text-align: center;"><img style="width: 64px;" src={signature} alt="signature"></td>
+           <td style="text-align: center;"><img style="width: 64px;" src="{signature}" alt="signature"></td>
           <td></td>
           <td ><img style="width: 64px; padding-left: 160px;  display: block;padding-bottom: -45px;" src="{stamp}" alt="img"><span>&nbsp;&nbsp;&nbsp;</span><p class="-down" style="font-weight: bold; ">201727755Z</p></td>
         </tr>
