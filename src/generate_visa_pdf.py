@@ -1,5 +1,6 @@
 from datetime import datetime
 import os
+import re
 from src.util import (
     add_space_underlined,
     convert_html_to_pdf,
@@ -11,12 +12,16 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 
 
 def get_visa_html(name: str, passport: str, purpose: str):
-    passport_number_gap = "25px"
+    passport_number_gap = "26px"
 
-    name_number_width = f"{150 - (len(name) * 4.8)}px"
-    passport_number_width = f"{150 - (len(passport) * 4.5)}px"
+    name_number_width = (
+        f"{155 - ((len(name) * 4.8) - (len(re.findall(r' ', name)) * 3) )}px"
+    )
+    passport_number_width = f"{150 - (len(passport) * 4.8)}px"
 
-    purpose_number_width = f"{140 - (len(purpose) * 4)}px"
+    purpose_number_width = (
+        f"{140 - ((len(purpose) * 4.2) - (len(re.findall(r' ', purpose)) * 3))}px"
+    )
 
     return f"""
 <html>
