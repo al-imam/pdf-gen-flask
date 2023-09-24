@@ -10,11 +10,13 @@ from src.images import signature, stamp
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
 
-def get_visa_html(name: str, passport: str):
+def get_visa_html(name: str, passport: str, purpose: str):
     passport_number_gap = "25px"
 
     name_number_width = f"{150 - (len(name) * 4.8)}px"
     passport_number_width = f"{150 - (len(passport) * 4.5)}px"
+
+    purpose_number_width = f"{140 - (len(purpose) * 4)}px"
 
     return f"""
 <html>
@@ -125,7 +127,7 @@ def get_visa_html(name: str, passport: str):
       <br> {add_space_underlined("BANGLADESH", "92px")} ( country/place ), holder of passport/travel document no.
       <br> {add_space_underlined(str.upper(passport),  passport_number_width)} {get_space(passport_number_gap)} is {get_space(passport_number_gap)} coming {get_space(passport_number_gap)} to {get_space(passport_number_gap)} Singapore {get_space(passport_number_gap)} from 
       <br> {add_space_underlined("BANGLADESH", "100px")} {get_space("5px")} ( country/place of embarkation ) {get_space("5px")} for the purpose of 
-      <br> {add_space_underlined("HOLIDAY", "120px")} ( e.g., holiday, transit, business, meeting, exhibition, visiting {get_space("9px")} friends {get_space("9px")} & {get_space("9px")} relatives, {get_space("9px")} employment, {get_space("9px")} education {get_space("9px")} for {get_space("9px")} others, {get_space("9px")} please {get_space("9px")} specify ). {get_space("9px")} The 
+      <br> {add_space_underlined(str.upper(purpose), purpose_number_width)} ( e.g., holiday, transit, business, meeting, exhibition, visiting {get_space("9px")} friends {get_space("9px")} & {get_space("9px")} relatives, {get_space("9px")} employment, {get_space("9px")} education {get_space("9px")} for {get_space("9px")} others, {get_space("9px")} please {get_space("9px")} specify ). {get_space("9px")} The 
       <br> applicant is my {add_space_underlined("CLIENT", "110px")} ( e.g., father, mother, brother, sister, son, daughter, spouse, business partner; for others, please specify ). </p>
 
       <h4 style="margin: 15px 0;">
@@ -219,9 +221,9 @@ def get_visa_file_name(code):
     return f"{code}-visa-application.pdf"
 
 
-def generate_visa_pdf(name, passport, code="unknown"):
+def generate_visa_pdf(name, passport, purpose, code="unknown"):
     convert_html_to_pdf(
-        get_visa_html(name, passport),
+        get_visa_html(name, passport, purpose),
         os.path.normpath(
             os.path.join(current_directory, "../generated", get_visa_file_name(code))
         ),
