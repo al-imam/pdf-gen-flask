@@ -2,8 +2,8 @@ from datetime import datetime
 from io import BytesIO
 from flask import Flask, request, Response, jsonify
 from jsonschema import ValidationError, validate
-from src.generate_visa_pdf import get_visa_html
-from src.generate_itenary_pdf import get_itenary_html
+from src.generate_visa_pdf import get_visa_html, generate_visa_pdf
+from src.generate_itenary_pdf import get_itenary_html, generate_itenary_pdf
 from xhtml2pdf import pisa
 from src.schema import itenary_schema, visa_schema
 
@@ -31,9 +31,7 @@ def generate_pdf():
         pdf_buffer = BytesIO()
 
         try:
-            content = get_visa_html(
-                data.get("name"), data.get("passport")
-            )
+            content = get_visa_html(data.get("name"), data.get("passport"))
             pisa.CreatePDF(content, dest=pdf_buffer)
             pdf_buffer.seek(0)
 
@@ -137,6 +135,38 @@ def generate_itenary_pdf_route():
             ),
             500,
         )
+
+
+@app.route("/generate/test/", methods=["GET"])
+def test():
+    generate_itenary_pdf(
+        {
+            "guest": {
+                "name": "Al-imam",
+                "passport": 43534,
+                "family": 4,
+            },
+            "itenary": [
+                {
+                    "date": datetime.today().strftime("%Y-%m-%d"),
+                    "from": "AirPost",
+                    "to": "Hotel valentilo",
+                },
+                {
+                    "date": datetime.today().strftime("%Y-%m-%d"),
+                    "from": "AirPost",
+                    "to": "Hotel valentilo",
+                },
+            ],
+        },
+    )
+
+    generate_visa_pdf("HelloLUEHUIG", "A3485G45", "visitingfrien")
+
+    return (
+        jsonify({"success": True}),
+        201,
+    )
 
 
 if __name__ == "__main__":
