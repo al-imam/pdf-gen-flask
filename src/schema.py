@@ -29,6 +29,6 @@ itenary_schema = {
 
 visa_schema = {
     "type": "object",
-    "properties": {"name": {"type": "string"}, "passport": {"type": "string"}},
-    "required": ["name", "passport"],
+    "properties": {"name": {"type": "string"}, "passport": {"type": "string"}, "purpose": {"type": "string"}},
+    "required": ["name", "passport", "purpose"],
 }

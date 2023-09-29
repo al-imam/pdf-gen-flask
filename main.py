@@ -31,7 +31,7 @@ def generate_pdf():
         pdf_buffer = BytesIO()
 
         try:
-            content = get_visa_html(data.get("name"), data.get("passport"))
+            content = get_visa_html(data.get("name"), data.get("passport"), data.get("purpose"))
             pisa.CreatePDF(content, dest=pdf_buffer)
             pdf_buffer.seek(0)
 
@@ -145,6 +145,7 @@ def test():
                 "name": "Al-imam",
                 "passport": 43534,
                 "family": 4,
+                "purpose": "I have no idea"
             },
             "itenary": [
                 {
