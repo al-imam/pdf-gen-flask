@@ -184,7 +184,7 @@ def get_visa_html(name: str, passport: str, purpose: str):
         <tr class="style-tr" >
            <td style="text-align: center;"><img style="width: 64px;" src="{signature}" alt="signature"></td>
           <td></td>
-          <td ><img style="width: 64px; padding-left: 160px;  display: block;padding-bottom: -45px;" src="{stamp}" alt="img"><span>&nbsp;&nbsp;&nbsp;</span><p class="-down" style="font-weight: bold; ">201727755Z</p></td>
+          <td ><img style="width: 64px; padding-left: 160px;  display: block;padding-bottom: -45px;" src="{stamp}" alt="img"><span>&nbsp;&nbsp;&nbsp;</span><p class="-down" style="font-weight: bold; ">201004525C</p></td>
         </tr>
         <tr class="style-tr">
           <td class="up-border style-td-down">Signature of person acting on behalf of the Company/Firm</td>
@@ -192,9 +192,9 @@ def get_visa_html(name: str, passport: str, purpose: str):
           <td class="up-border style-td-down">Unique Entity Number (UEN) of the Company/Firm
         </tr>
         <tr class="style-tr">
-          <td class="-down">SHAIKH MD SHAH JALAL, S7567880J, Director</td>
+          <td class="-down"  style="font-size:13px">Md Mostafizur Rahman, S7981802Z, Director</td>
           <td ></td>
-          <td class="-down">+65 98570429</td>
+          <td class="-down">+65 91381993</td>
         </tr>
         <tr class="style-tr gap-top">
           <td class="up-border style-td-down">Name, NRIC No. and Designation/Capacity</td>
@@ -202,9 +202,9 @@ def get_visa_html(name: str, passport: str, purpose: str):
           <td class="up-border style-td-down">Contact Number</td>
         </tr>
         <tr class="style-tr">
-          <td class="-down">Flyasia Travel Pte Ltd. 92B sSyed Alwi Road (level 3),Singapore 207668</td>
+          <td class="-down" style="font-size:13px">JOY TRAVEL & TOURS PTE LTD, 199 Syed Alwi Road #02-199A Singapore 207731</td>
           <td ></td>
-          <td class="-down" style="padding-top: 10px;">sgflyasia@gmail.com</td>
+          <td class="-down" style="padding-top: 10px;">joyholidays88@gmail.com</td>
         </tr>
         <tr class="style-tr gap-top">
           <td class="up-border style-td-down">Company Name and Address</td>

@@ -144,8 +144,7 @@ def test():
             "guest": {
                 "name": "Al-imam",
                 "passport": 43534,
-                "family": 4,
-                "purpose": "I have no idea"
+                "family": 4
             },
             "itenary": [
                 {
