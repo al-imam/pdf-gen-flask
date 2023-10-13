@@ -42,3 +42,9 @@ letter_schema = {
     "properties": {"name": {"type": "string"}},
     "required": ["name"],
 }
+
+authorize_schema = {
+    "type": "object",
+    "properties": {"name": {"type": "string"}, "representative_name": {"type": "string"}, "relationship": {"type": "string"}, "number": {"type": "string"}, "contact": {"type": "string"}, "name_ava": {"type": "string"}, "address_ava": {"type": "string"}},
+    "required": ["name", "representative_name", "relationship", "number", "contact", "name_ava", "address_ava"],
+}

@@ -5,8 +5,9 @@ from jsonschema import ValidationError, validate
 from src.generate_visa_pdf import get_visa_html, generate_visa_pdf
 from src.generate_itenary_pdf import get_itenary_html, generate_itenary_pdf
 from src.generate_letter_pdf import get_letter_html, generate_letter_pdf
+from src.generate_authorize_pdf import get_authorize_html
 from xhtml2pdf import pisa
-from src.schema import itenary_schema, visa_schema, letter_schema
+from src.schema import itenary_schema, visa_schema, letter_schema, authorize_schema
 
 app = Flask(__name__)
 
@@ -162,6 +163,70 @@ def generate_letter_pdf_route():
 
         try:
             content = get_letter_html(data.get("name"))
+            pisa.CreatePDF(content, dest=pdf_buffer)
+            pdf_buffer.seek(0)
+
+        except Exception as e:
+            return (
+                jsonify(
+                    {
+                        "message": f"PDF generation error: {str(e)}",
+                        "code": "pdf-gen-error",
+                    }
+                ),
+                500,
+            )
+
+        return Response(pdf_buffer, content_type="application/pdf")
+
+    except ValidationError as e:
+        return (
+            jsonify(
+                {
+                    "message": "Request doesn't contain valid data!",
+                    "error": str(e),
+                    "code": "invalid-request",
+                }
+            ),
+            400,
+        )
+
+    except Exception as e:
+        return (
+            jsonify(
+                {
+                    "message": "Internal Server Error",
+                    "code": "server-break",
+                    "error": str(e),
+                }
+            ),
+            500,
+        )
+
+
+
+@app.route("/generate/authorize/", methods=["POST"])
+def generate_authorize_pdf_route():
+    try:
+        data = request.get_json(silent=True)
+
+        if data is None:
+            return (
+                jsonify(
+                    {
+                        "message": "Request body is not valid JSON!",
+                        "code": "invalid-json",
+                    }
+                ),
+                400,
+            )
+
+        validate(data, authorize_schema)
+
+        pdf_buffer = BytesIO()
+
+        try:
+            content = get_authorize_html(data.get("name"))
             pisa.CreatePDF(content, dest=pdf_buffer)
             pdf_buffer.seek(0)
 
