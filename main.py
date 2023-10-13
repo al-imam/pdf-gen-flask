@@ -5,7 +5,7 @@ from jsonschema import ValidationError, validate
 from src.generate_visa_pdf import get_visa_html, generate_visa_pdf
 from src.generate_itenary_pdf import get_itenary_html, generate_itenary_pdf
 from src.generate_letter_pdf import get_letter_html, generate_letter_pdf
-from src.generate_authorize_pdf import get_authorize_html
+from src.generate_authorize_pdf import get_authorize_html, generate_authorize_pdf
 from xhtml2pdf import pisa
 from src.schema import itenary_schema, visa_schema, letter_schema, authorize_schema
 
@@ -204,7 +204,6 @@ def generate_letter_pdf_route():
         )
 
 
-
 @app.route("/generate/authorize/", methods=["POST"])
 def generate_authorize_pdf_route():
     try:
@@ -291,6 +290,18 @@ def test():
     generate_visa_pdf("HelloLUEHUIG", "A3485G45", "visitingfrien")
 
     generate_letter_pdf("Nirob")
+
+    generate_authorize_pdf(
+        {
+            "name": "Nirob",
+            "representative_name": "Imam",
+            "relationship": "Self",
+            "number": "1924AD343",
+            "contact": "email@mail.com",
+            "name_ava": "USA_MILITARY",
+            "address_ava": "SOME_WHERE_CLOSE",
+        }
+    )
 
     return (
         jsonify({"success": True}),

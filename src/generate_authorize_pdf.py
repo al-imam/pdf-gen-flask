@@ -6,7 +6,7 @@ from src.util import convert_html_to_pdf
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
 
-def get_authorize_html(value = {}):
+def get_authorize_html(value={}):
     return f"""
 <html lang="en">
   <head>
@@ -66,6 +66,8 @@ def generate_authorize_pdf(value, code="unknown"):
     convert_html_to_pdf(
         get_authorize_html(value),
         os.path.normpath(
-            os.path.join(current_directory, "../generated", get_authorize_file_name(code))
+            os.path.join(
+                current_directory, "../generated", get_authorize_file_name(code)
+            )
         ),
     )
