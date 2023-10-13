@@ -23,39 +23,56 @@ def get_authorize_html(value={}):
     
     .container {{
       font-family: sans-serif;
-      padding: 0 40px;
+      padding: 0 60px;
       margin: auto;
     }}
-    
-    .text {{
-        font-size: 14px;
-        line-height: 1.5;
-        margin: 0;
+
+    tr {{
+      margin: 20px 0;
     }}
     
-    .text-li {{
-        font-size: 14px;
-    }}
-    
-    .text-bottom {{
-        font-size: 14px;
-    }}
-    
+
 
   </style>
-  <body style="font-family: 'Roboto', sans-serif;">
+  <body style="font-family: 'Roboto', sans-serif; font-size: 16px;">
     <div class="container">
       
-      <h1 style="text-align: center; margin-top: 30px; font-size: 20px;">AUTHORISATION LETTER</h1>
-      <p> I, {value.get("name")} (Name of applicant), holder of Passport type & number/Identity Card No. A03181341_, hereby authorise {value.get("representative_name")} (Name of the applicant’s representative), who is my {value.get("relationship")}(state relationship, e.g. Father, mother, sibling, friend, business associate, etc), holder of Passport type & number /Identity Card number {value.get("number")}, and email/contact number {value.get("contact")} to submit my visa application and all necessary documents and, if necessary, collect my passport and/or other personal documents on my behalf.</p>
+      <h1 style="text-align: center; margin-top: 30px; font-size: 20px; padding-top: 40px; text-decoration: underline;">AUTHORISATION LETTER</h1>
+      <p> I, {value.get("client")} (Name of applicant), holder of Passport type & number/Identity Card No. {value.get("client_passport_number")}, hereby authorise {value.get("authorizer")} (Name of the applicant’s representative), who is my {value.get("relationship")}(state relationship, e.g. Father, mother, sibling, friend, business associate, etc), holder of Passport type & number/Identity Card number {value.get("authorizer_passport_number")}, and email/contact number {value.get("contact")} to submit my visa application and all necessary documents and, if necessary, collect my passport and/or other personal documents on my behalf.</p>
 
-      <p>To: {value.get("name_ava")} (name of AVA)</p>
-      <p>To: {value.get("address_ava")} (address of AVA)</p>
+      <p style="padding-top: 30px;">To: {value.get("name_ava")} (name of AVA)</p>
+      <p>At: {value.get("address_ava")} (address of AVA)</p>
+
+      <table style="margin-top: 60px;">
+        <tr>
+          <td>__________________</td>
+          <td>{getCurDate()}</td>
+        </tr>
+        <tr>
+          <td>Signature of applicant</td>
+          <td>Date</td>
+        </tr>
+        <tr>
+          <td><p style="padding: 50px 0;">Accepted by AVA :</p></td>
+        </tr>
+        <tr>
+          <td>________________</td>
+          <td>{getCurDate()}</td>
+        </tr>
+        <tr>
+          <td>Signature of AVA</td>
+          <td>Date</td>
+        </tr>
+      </table>
 
     </div>
   </body>
 </html>
 """
+
+
+def getCurDate():
+    return datetime.now().strftime("%d %b %y").upper()
 
 
 def get_authorize_file_name(code):

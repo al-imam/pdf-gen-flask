@@ -293,10 +293,11 @@ def test():
 
     generate_authorize_pdf(
         {
-            "name": "Nirob",
-            "representative_name": "Imam",
+            "client": "Nirob",
+            "client_passport_number": "D2786G#4",
+            "authorizer": "Imam",
             "relationship": "Self",
-            "number": "1924AD343",
+            "authorizer_passport_number": "1924AD343",
             "contact": "email@mail.com",
             "name_ava": "USA_MILITARY",
             "address_ava": "SOME_WHERE_CLOSE",
