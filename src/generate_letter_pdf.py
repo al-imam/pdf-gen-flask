@@ -1,4 +1,6 @@
 import os
+from datetime import datetime
+
 from src.util import convert_html_to_pdf
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -46,7 +48,7 @@ def get_letter_html(name):
   <body style="font-family: 'Roboto', sans-serif;">
     <div class="container">
       
-    <p class="text">Date: 28/08/2023</p>
+    <p class="text">Date: {datetime.today().strftime('%d/%m/%Y')}</p>
     <p class="text"> </p>
     <p class="text">To Consul</p>
     <p class="text">Visa Section</p>
