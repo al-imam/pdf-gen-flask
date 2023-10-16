@@ -1,14 +1,17 @@
 itenary_schema = {
     "type": "object",
     "properties": {
-        "guest": {
-            "type": "object",
-            "properties": {
-                "name": {"type": "string"},
-                "passport": {"anyOf": [{"type": "integer"}, {"type": "string"}]},
-                "family": {"type": "string"},
+        "guests": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "passport": {"anyOf": [{"type": "integer"}, {"type": "string"}]},
+                    "family": {"type": "string"},
+                },
+                "required": ["name", "passport"],
             },
-            "required": ["name", "passport", "family"],
         },
         "itenary": {
             "type": "array",
@@ -23,7 +26,7 @@ itenary_schema = {
             },
         },
     },
-    "required": ["guest", "itenary"],
+    "required": ["guests", "itenary"],
 }
 
 

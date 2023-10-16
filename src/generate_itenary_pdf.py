@@ -76,7 +76,7 @@ def get_itenary_html(dictionary):
 
       <div class="name-container">
         <p style="font-size: 22px; text-decoration: underline">
-          {f"{dictionary['guest']['name']} - {dictionary['guest']['passport']} ({dictionary['guest']['family']})"}
+          {", ".join(map(lambda guest: f"{guest['name']} - {guest['passport']}", dictionary["guests"]))}
         </p>
       </div>
 

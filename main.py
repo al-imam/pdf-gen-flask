@@ -271,7 +271,10 @@ def generate_authorize_pdf_route():
 def test():
     generate_itenary_pdf(
         {
-            "guest": {"name": "Al-imam", "passport": 43534, "family": 4},
+            "guests": [
+                {"name": "Al-imam", "passport": 43534},
+                {"name": "Al-imam", "passport": 43534},
+            ],
             "itenary": [
                 {
                     "date": datetime.today().strftime("%Y-%m-%d"),
