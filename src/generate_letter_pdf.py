@@ -75,8 +75,10 @@ def get_letter_html(name):
     <p class="text-bottom">Thanking you</p>
     <p class="text-bottom">Yours Sincerely,</p>
     <p style="height: 30px;"> </p>
-    <p>{"_" * len(name) + 5}</p>
-    <p class="text-bottom">{name}</p>
+
+    <p>{"_" * (len(name) + 2) }</p>
+    <p class="text-bottom" style="padding-top: -15px">{name}</p>
+
     </div>
   </body>
 </html>
