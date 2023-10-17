@@ -50,10 +50,10 @@ def get_letter_html(name):
       
     <p class="text">Date: {datetime.today().strftime('%d/%m/%Y')}</p>
     <p class="text"> </p>
-    <p class="text">To Consul</p>
-    <p class="text">Visa Section</p>
-    <p class="text">Consulate of the Republic of Singapore, Dhaka</p>
-    <p class="text">Dhaka, Bangladesh</p>
+    <p class="text">To,</p>
+    <p class="text">The Second Secretary (Visa and Consular)</p>
+    <p class="text">High Commission of The Republic of Singapore,</p>
+    <p class="text">Dhaka, Bangladesh.</p>
 
     <h3 style="text-align: center; margin-top: 30px; font-size: 20px;">UNDERTAKING</h3>
 
@@ -74,6 +74,8 @@ def get_letter_html(name):
 
     <p class="text-bottom">Thanking you</p>
     <p class="text-bottom">Yours Sincerely,</p>
+    <p style="height: 30px;"> </p>
+    <p>{"_" * len(name) + 5}</p>
     <p class="text-bottom">{name}</p>
     </div>
   </body>
