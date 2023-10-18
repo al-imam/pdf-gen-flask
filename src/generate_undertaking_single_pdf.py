@@ -6,7 +6,7 @@ from src.util import convert_html_to_pdf
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
 
-def get_letter_html(name):
+def get_undertaking_single_html(name):
     return f"""
 <html lang="en">
   <head>
@@ -55,22 +55,25 @@ def get_letter_html(name):
     <p class="text">High Commission of The Republic of Singapore,</p>
     <p class="text">Dhaka, Bangladesh.</p>
 
-    <h3 style="text-align: center; margin-top: 30px; font-size: 20px;">UNDERTAKING</h3>
+    <h3 style="margin-top: 30px; font-size: 20px;">UNDERTAKING</h3>
 
     <p class="text-li" style="margin-bottom: 0;">I, {name}, applied for Singapore visa and solemnly declare that:</p>
 
-    <ol type="a" style="line-height: 6;">
-        <li class="text-li">
+    <div>
+        <p class="text-li" style="padding: 0 0 0 20px; margin: 5px;">
+         <span style="font-family: monospace; font-weight: 600;">i.</span>
             I have submitted all necessary documents required to apply for Singapore visa.
-        </li>
-        <li class="text-li">
+        </p>
+        <p class="text-li" style="padding: 0 0 0 20px; margin: 5px;">
+         <span style="font-family: monospace; font-weight: 600;">ii.</span>
             I am aware that the visa application processing time at the Consulate of the Republic of Singapore,
              Dhaka is minimum 5 (five) working days and more (Excluding Submission Date).
-        </li>
-        <li class="text-li">
+        </p>
+        <p class="text-li" style="padding: 0 0 0 20px; margin: 5px;">
+         <span style="font-family: monospace; font-weight: 600;">iii.</span>
             I agree with all the term & condition related to my visa application as well as while I am in Singapore.
-        </li>
-    </ol>
+        </p>
+    </div>
 
     <p class="text-bottom">Thanking you</p>
     <p class="text-bottom">Yours Sincerely,</p>
@@ -85,14 +88,18 @@ def get_letter_html(name):
 """
 
 
-def get_letter_file_name(code):
-    return f"{code}-letter-application.pdf"
+def get_undertaking_single_file_name(code):
+    return f"{code}-undertaking_single-application.pdf"
 
 
-def generate_letter_pdf(value, code="unknown"):
+def generate_undertaking_single_pdf(value, code="unknown"):
     convert_html_to_pdf(
-        get_letter_html(value),
+        get_undertaking_single_html(value),
         os.path.normpath(
-            os.path.join(current_directory, "../generated", get_letter_file_name(code))
+            os.path.join(
+                current_directory,
+                "../generated",
+                get_undertaking_single_file_name(code),
+            )
         ),
     )

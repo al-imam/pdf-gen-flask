@@ -40,10 +40,31 @@ visa_schema = {
     "required": ["name", "passport", "purpose"],
 }
 
-letter_schema = {
+undertaking_single_schema = {
     "type": "object",
     "properties": {"name": {"type": "string"}},
     "required": ["name"],
+}
+
+undertaking_family_schema = {
+    "type": "object",
+    "properties": {
+        "name": {"type": "string"},
+        "array": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "sl": {"type": "string"},
+                    "name": {"type": "string"},
+                    "number": {"type": "string"},
+                    "remarks": {"type": "string"},
+                },
+                "required": ["sl", "name", "number", "remarks"],
+            },
+        },
+    },
+    "required": ["name", "array"],
 }
 
 authorize_schema = {
