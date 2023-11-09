@@ -26,7 +26,7 @@ def get_undertaking_single_html(name):
     .container {{
       font-family: sans-serif;
       padding: 0 40px;
-      margin: auto;
+      margin: 0 50px;
     }}
     
     .text {{
@@ -41,11 +41,13 @@ def get_undertaking_single_html(name):
     
     .text-bottom {{
         font-size: 14px;
+        padding-bottom:30px;
     }}
     
 
   </style>
   <body style="font-family: 'Roboto', sans-serif;">
+    <div style="padding-bottom:100px;">.</div>
     <div class="container">
       
     <p class="text">Date: {datetime.today().strftime('%d/%m/%Y')}</p>
@@ -77,7 +79,7 @@ def get_undertaking_single_html(name):
 
     <p class="text-bottom">Thanking you</p>
     <p class="text-bottom">Yours Sincerely,</p>
-    <p style="height: 30px;"> </p>
+    
 
     <p>{"_" * (len(name) + 2) }</p>
     <p class="text-bottom" style="padding-top: -15px">{name}</p>
