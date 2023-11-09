@@ -38,7 +38,7 @@ def get_visa_html(name: str, passport: str, purpose: str):
       }}
 
       @page {{
-        margin: 50px 70px;
+        margin: 40px 70px 20px 70px;
       }}
 
       . {{
@@ -117,8 +117,8 @@ def get_visa_html(name: str, passport: str, purpose: str):
     <div class="main-container">
       <table class="full-width-table">
         <tr class="style-tr">
-          <td style="width: 50%; text-align: left;">Controller of Immigration<br /> Singapore </td>
-          <td style="width: 50%; text-align: right;">Date: <span class="underline">&nbsp;{get_space("20px")}{datetime.today().strftime('%d-%m-%Y')}{get_space("20px")}</span></td>
+          <td style="width: 70%; text-align: left;">To,<br />Second Secretary (Visa & Consular)<br /> High Commission of the Republic of Singapore in Dhaka <br /> Dhaka, Bangladesh</td>
+          <td style="width: 30%; text-align: right;margin-bottom:300px;">Date: <span class="underline">&nbsp;{get_space("20px")}{datetime.today().strftime('%d-%m-%Y')}{get_space("20px")}</span></td>
         </tr>
       </table>
 

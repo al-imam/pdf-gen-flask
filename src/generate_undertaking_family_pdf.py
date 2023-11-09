@@ -38,7 +38,7 @@ def get_undertaking_family_html(name, array):
 
     table {{
             border-collapse: collapse;
-            width: 100%;
+            width: 90%;
         }}
 
         table, th, td {{
@@ -68,11 +68,13 @@ def get_undertaking_family_html(name, array):
     
     .text-bottom {{
         font-size: 14px;
+        padding-bottom:30px;
     }}
     
 
   </style>
   <body style="font-family: 'Roboto', sans-serif;">
+    <div style="padding-bottom:100px;">.</div>
     <div class="container">
       
     <p class="text">Date: {datetime.today().strftime('%d/%m/%Y')}</p>
@@ -111,8 +113,7 @@ def get_undertaking_family_html(name, array):
 
     <p class="text-bottom">Thanking you</p>
     <p class="text-bottom">Yours Sincerely,</p>
-    <p style="height: 30px;"> </p>
-
+  
     <p>{"_" * (len(name) + 2) }</p>
     <p class="text-bottom" style="padding-top: -15px">{name}</p>
 

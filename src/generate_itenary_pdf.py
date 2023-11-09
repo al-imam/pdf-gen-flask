@@ -72,7 +72,7 @@ def get_itenary_html(dictionary):
     <div class="table-container">
       <img class="logo-img" src="{banner}" alt="logo" />
 
-      <h1 style="font-weight: 700" class="heading">TOUR ITENARY</h1>
+      <h1 style="font-weight: 700" class="heading">TOUR ITINERARY </h1>
 
       <div class="name-container">
         <p style="font-size: 22px; text-decoration: underline">
